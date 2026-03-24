@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>İlim ve Menhec Kitap</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#080806;--bg2:#0f0e0a;--bg3:#151309;--bg4:#1c1a0f;
+  --gold:#d4a84b;--gold-l:#f0d484;--gold-d:#9a7230;--gold-dd:#6a4e18;
+  --text:#c4a855;--text-m:#7a6028;
+  --border:#231a06;--border-g:#5a3e10;
+  --shadow:rgba(160,100,10,0.15);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Playfair Display',serif;min-height:100vh;overflow-x:hidden}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(ellipse 90% 50% at 50% -10%,rgba(180,120,20,0.09) 0%,transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M40 0L80 40L40 80L0 40Z' fill='none' stroke='%23d4a84b' stroke-width='0.2' stroke-opacity='0.06'/%3E%3Cpath d='M40 15L65 40L40 65L15 40Z' fill='none' stroke='%23d4a84b' stroke-width='0.1' stroke-opacity='0.04'/%3E%3C/svg%3E");
+}
+.page{display:none;position:relative;z-index:1}
+.page.active{display:block}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 56px;background:rgba(6,5,3,0.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-brand{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:600;letter-spacing:0.12em;color:var(--gold);text-decoration:none;cursor:pointer}
+.nav-brand span{color:var(--gold-l)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-m);text-decoration:none;transition:color 0.3s;cursor:pointer}
+.nav-links a:hover{color:var(--gold-l)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px}
+.arabic-header{font-family:'Amiri',serif;font-size:clamp(2rem,4.5vw,4rem);color:var(--gold-l);text-shadow:0 0 60px rgba(212,168,75,0.35);animation:fadeDown 1s ease both;margin-bottom:14px}
+.hero-div{display:flex;align-items:center;gap:14px;width:300px;margin:16px auto 24px;animation:fadeIn 1s ease both 0.3s}
+.hero-div::before,.hero-div::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-d),transparent)}
+.diamond{width:7px;height:7px;background:var(--gold);transform:rotate(45deg)}
+.hero-title{font-family:'Cinzel',serif;font-size:clamp(2.2rem,6vw,5rem);font-weight:800;letter-spacing:0.08em;color:var(--gold-l);text-shadow:0 0 80px rgba(212,168,75,0.2);animation:fadeDown 1s ease both 0.15s}
+.hero-title span{color:var(--gold)}
+.hero-sub{font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-m);margin-top:16px;animation:fadeIn 1s ease both 0.4s}
+.hero-desc{max-width:500px;margin:26px auto 0;font-size:1rem;line-height:1.9;color:var(--text);font-style:italic;animation:fadeIn 1s ease both 0.6s}
+.hero-cta{display:inline-block;margin-top:40px;padding:13px 42px;border:1px solid var(--gold-d);color:var(--gold-l);font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;background:transparent;cursor:pointer;transition:all 0.35s;position:relative;overflow:hidden;animation:fadeIn 1s ease both 0.8s}
+.hero-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,168,75,0.1),transparent);opacity:0;transition:opacity 0.35s}
+.hero-cta:hover::before{opacity:1}
+.hero-cta:hover{border-color:var(--gold)}
+
+/* SECTION */
+section{position:relative;z-index:1;padding:90px 56px;max-width:1320px;margin:0 auto}
+.sec-label{font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold-d);margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.sec-label::before{content:'';width:28px;height:1px;background:var(--gold-d)}
+.sec-title{font-family:'Cinzel',serif;font-size:clamp(1.5rem,2.8vw,2.6rem);font-weight:600;color:var(--gold-l);margin-bottom:12px;line-height:1.2}
+.sec-desc{max-width:540px;font-size:0.95rem;color:var(--text-m);line-height:1.9;margin-bottom:56px}
+
+/* CATEGORIES */
+.cat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.cat-card{padding:28px 16px 24px;border:1px solid var(--border);background:var(--bg3);text-align:center;cursor:pointer;transition:all 0.35s;position:relative;overflow:hidden}
+.cat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold-d),transparent);transform:scaleX(0);transition:transform 0.4s}
+.cat-card:hover{border-color:var(--border-g);background:var(--bg4);transform:translateY(-3px)}
+.cat-card:hover::after,.cat-card.active::after{transform:scaleX(1)}
+.cat-card.active{border-color:var(--gold);background:rgba(212,168,75,0.06)}
+.cat-icon-big{font-size:2.2rem;margin-bottom:10px;display:block}
+.cat-name{font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.14em;color:var(--gold);text-transform:uppercase}
+.cat-count{font-size:0.65rem;color:var(--text-m);margin-top:5px}
+
+/* QUOTE */
+.quote-banner{position:relative;z-index:1;background:linear-gradient(135deg,#0b0a06,#100e06);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:70px 56px;text-align:center;overflow:hidden}
+.quote-banner::before{content:'❝';position:absolute;top:-30px;left:50%;transform:translateX(-50%);font-size:14rem;color:rgba(212,168,75,0.04);font-family:'Amiri',serif;pointer-events:none}
+.quote-ar{font-family:'Amiri',serif;font-size:clamp(1.3rem,2.5vw,2rem);color:var(--gold-l);margin-bottom:18px;direction:rtl}
+.quote-tr{font-size:1rem;font-style:italic;color:var(--text);max-width:640px;margin:0 auto 14px;line-height:1.9}
+.quote-src{font-family:'Cinzel',serif;font-size:0.66rem;letter-spacing:0.18em;color:var(--gold-dd);text-transform:uppercase}
+
+/* FILTER BAR */
+.filter-wrap{display:flex;align-items:center;gap:12px;margin-bottom:36px;flex-wrap:wrap}
+.filter-lbl{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.2em;color:var(--text-m);text-transform:uppercase;white-space:nowrap}
+.f-btn{padding:6px 16px;border:1px solid var(--border);background:transparent;color:var(--text-m);font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;transition:all 0.3s}
+.f-btn:hover{border-color:var(--border-g);color:var(--gold)}
+.f-btn.active{border-color:var(--gold);color:var(--gold-l);background:rgba(212,168,75,0.07)}
+
+/* BOOK CARDS */
+.books-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px}
+.book-card{background:var(--bg3);border:1px solid var(--border);cursor:pointer;transition:all 0.38s;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.book-card:hover{background:var(--bg4);border-color:var(--border-g);transform:translateY(-5px);box-shadow:0 20px 56px var(--shadow)}
+.book-card.hidden{display:none}
+.book-card.visible{animation:cardIn 0.38s ease both}
+
+/* BOOK COVER */
+.book-cover{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--bg2)}
+.book-cover-inner{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:20px}
+.cover-bg{position:absolute;inset:0}
+.cover-pattern{position:absolute;inset:0;opacity:0.22}
+.cover-icon{font-size:2.8rem;position:relative;z-index:2;margin-bottom:12px;filter:drop-shadow(0 0 12px rgba(212,168,75,0.5))}
+.cover-title-ar{font-family:'Amiri',serif;font-size:0.85rem;color:var(--gold-l);text-align:center;position:relative;z-index:2;direction:rtl;line-height:1.5;text-shadow:0 0 20px rgba(212,168,75,0.4);padding:0 8px}
+.cover-border{position:absolute;inset:8px;border:1px solid rgba(212,168,75,0.2);z-index:1;pointer-events:none}
+.cover-corner{position:absolute;width:12px;height:12px;z-index:3}
+.cover-corner.tl{top:8px;left:8px;border-top:1px solid var(--gold-d);border-left:1px solid var(--gold-d)}
+.cover-corner.tr{top:8px;right:8px;border-top:1px solid var(--gold-d);border-right:1px solid var(--gold-d)}
+.cover-corner.bl{bottom:8px;left:8px;border-bottom:1px solid var(--gold-d);border-left:1px solid var(--gold-d)}
+.cover-corner.br{bottom:8px;right:8px;border-bottom:1px solid var(--gold-d);border-right:1px solid var(--gold-d)}
+
+.book-info{padding:20px 18px 18px;flex:1;display:flex;flex-direction:column;border-top:1px solid var(--border)}
+.book-cat-badge{font-family:'Cinzel',serif;font-size:0.56rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dd);margin-bottom:10px}
+.book-title{font-family:'Amiri',serif;font-size:1.1rem;color:var(--gold-l);line-height:1.4;margin-bottom:5px}
+.book-author{font-size:0.78rem;color:var(--gold-dd);font-style:italic;margin-bottom:10px}
+.book-excerpt{font-size:0.8rem;line-height:1.75;color:var(--text-m);flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.detail-btn{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:7px 16px;border:1px solid var(--border-g);color:var(--gold);font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;background:transparent;cursor:pointer;transition:all 0.3s;align-self:flex-start}
+.detail-btn:hover{background:rgba(212,168,75,0.08);border-color:var(--gold);color:var(--gold-l)}
+.detail-btn svg{width:10px;height:10px;transition:transform 0.3s}
+.detail-btn:hover svg{transform:translateX(3px)}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-ornament{width:260px;height:260px;margin:0 auto;position:relative;display:flex;align-items:center;justify-content:center}
+.about-ornament svg{position:absolute;inset:0;width:100%;height:100%;opacity:0.3}
+.about-ornament-txt{font-family:'Amiri',serif;font-size:4rem;color:var(--gold);z-index:1;direction:rtl}
+.about-body{font-size:0.95rem;line-height:2;color:var(--text);margin-bottom:18px}
+
+/* CONTACT */
+.contact-box{border:1px solid var(--border);background:var(--bg3);padding:56px;text-align:center;max-width:680px;margin:0 auto}
+.contact-box p{color:var(--text-m);line-height:1.9;margin-bottom:28px;font-size:0.92rem}
+.contact-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.contact-link{padding:11px 28px;border:1px solid var(--border-g);color:var(--gold-l);font-family:'Cinzel',serif;font-size:0.66rem;letter-spacing:0.16em;text-transform:uppercase;text-decoration:none;transition:all 0.3s}
+.contact-link:hover{background:rgba(212,168,75,0.08);border-color:var(--gold)}
+
+/* FOOTER */
+footer{position:relative;z-index:1;text-align:center;padding:48px 40px;border-top:1px solid var(--border)}
+.footer-brand{font-family:'Cinzel',serif;font-size:0.95rem;color:var(--gold);letter-spacing:0.15em;margin-bottom:10px}
+.footer-text{font-size:0.74rem;color:var(--text-m);letter-spacing:0.08em}
+.footer-ar{font-family:'Amiri',serif;font-size:1rem;color:var(--gold-dd);margin-top:14px;direction:rtl}
+
+.orn-div{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:10px;padding:8px 0 48px}
+.orn-line{width:100px;height:1px}
+.orn-line.l{background:linear-gradient(90deg,var(--border-g),transparent)}
+.orn-line.r{background:linear-gradient(90deg,transparent,var(--border-g))}
+.orn-star{color:var(--gold-d);font-size:1rem}
+
+/* ═══ DETAIL PAGE ═══ */
+#detailPage{min-height:100vh;padding-top:68px}
+.detail-back-bar{position:sticky;top:68px;z-index:200;background:rgba(6,5,3,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 56px;display:flex;align-items:center;gap:16px}
+.back-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-m);background:none;border:none;cursor:pointer;transition:color 0.3s;padding:0}
+.back-btn svg{width:14px;height:14px;transition:transform 0.3s}
+.back-btn:hover{color:var(--gold-l)}
+.back-btn:hover svg{transform:translateX(-3px)}
+.breadcrumb{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.14em;color:var(--gold-dd);display:flex;align-items:center;gap:8px}
+.breadcrumb span{color:var(--gold-d)}
+
+.detail-hero{display:grid;grid-template-columns:280px 1fr;gap:60px;padding:56px 56px 48px;max-width:1200px;margin:0 auto;align-items:start}
+.detail-cover{position:sticky;top:140px}
+.detail-cover-img{aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;border:1px solid var(--border-g)}
+.detail-cover-img .cover-icon{font-size:4.5rem}
+.detail-cover-img .cover-title-ar{font-size:1.1rem;padding:0 12px}
+
+.detail-meta{padding-top:8px}
+.detail-badge{display:inline-block;padding:4px 14px;border:1px solid var(--border-g);font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.2em;color:var(--gold-dd);text-transform:uppercase;margin-bottom:20px}
+.detail-title{font-family:'Amiri',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);color:var(--gold-l);line-height:1.3;margin-bottom:10px}
+.detail-author{font-size:1rem;color:var(--gold-d);font-style:italic;margin-bottom:28px}
+.detail-divider{height:1px;background:linear-gradient(90deg,var(--border-g),transparent);margin-bottom:28px}
+.detail-label{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-d);margin-bottom:12px}
+.detail-text{font-size:0.95rem;line-height:2;color:var(--text);margin-bottom:28px}
+.detail-props{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+.prop-item{padding:14px 16px;border:1px solid var(--border);background:var(--bg3)}
+.prop-key{font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.18em;color:var(--gold-dd);text-transform:uppercase;margin-bottom:5px}
+.prop-val{font-size:0.85rem;color:var(--text)}
+
+.detail-body{max-width:1200px;margin:0 auto;padding:0 56px 80px}
+.detail-section{margin-bottom:48px}
+.detail-section-title{font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold-d);margin-bottom:20px;display:flex;align-items:center;gap:14px}
+.detail-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.detail-section p{font-size:0.93rem;line-height:2;color:var(--text);margin-bottom:16px}
+.detail-quote{border-left:2px solid var(--gold-d);padding:16px 24px;background:rgba(212,168,75,0.04);margin:24px 0}
+.detail-quote .dq-ar{font-family:'Amiri',serif;font-size:1.2rem;color:var(--gold-l);direction:rtl;margin-bottom:8px}
+.detail-quote .dq-tr{font-size:0.85rem;font-style:italic;color:var(--text-m)}
+
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:18px}
+.related-card{background:var(--bg3);border:1px solid var(--border);cursor:pointer;transition:all 0.35s;overflow:hidden}
+.related-card:hover{border-color:var(--border-g);transform:translateY(-3px);box-shadow:0 12px 36px var(--shadow)}
+.related-cover{aspect-ratio:3/4;position:relative;overflow:hidden;background:var(--bg2)}
+.related-info{padding:14px 12px}
+.related-title{font-family:'Amiri',serif;font-size:0.95rem;color:var(--gold-l);margin-bottom:4px;line-height:1.4}
+.related-author{font-size:0.72rem;color:var(--gold-dd);font-style:italic}
+
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HAMBURGER MENU ── */
+.hamburger{
+  display:none;flex-direction:column;justify-content:center;
+  gap:5px;cursor:pointer;padding:8px;background:none;
+  border:1px solid var(--border);transition:border-color 0.3s;
+  width:42px;height:42px;flex-shrink:0;
+}
+.hamburger:hover{border-color:var(--border-g)}
+.hamburger span{
+  display:block;width:20px;height:1.5px;
+  background:var(--gold);transition:all 0.35s;transform-origin:center;
+}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+.mobile-menu{
+  position:fixed;top:68px;left:0;right:0;z-index:490;
+  background:rgba(6,5,3,0.98);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border-g);
+  padding:0;
+  max-height:0;overflow:hidden;
+  transition:max-height 0.4s ease,padding 0.3s ease;
+}
+.mobile-menu.open{max-height:320px;padding:12px 0 20px}
+.mobile-menu a{
+  display:block;padding:14px 28px;
+  font-family:'Cinzel',serif;font-size:0.72rem;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--text-m);text-decoration:none;
+  border-bottom:1px solid var(--border);
+  transition:color 0.3s,background 0.3s;cursor:pointer;
+}
+.mobile-menu a:last-child{border-bottom:none}
+.mobile-menu a:hover{color:var(--gold-l);background:rgba(212,168,75,0.05)}
+
+/* ── TABLET ── */
+@media(max-width:1100px){
+  .cat-grid{grid-template-columns:repeat(3,1fr)}
+  .detail-hero{grid-template-columns:220px 1fr;gap:40px;padding:40px}
+  .detail-body{padding:0 40px 60px}
+  .detail-cover{position:static}
+  .books-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  nav{padding:0 20px;height:60px}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .mobile-menu{top:60px}
+
+  section{padding:56px 18px}
+  .sec-title{font-size:1.6rem}
+  .sec-desc{font-size:0.88rem;margin-bottom:36px}
+
+  .hero{padding:90px 20px 60px;min-height:100svh}
+  .arabic-header{font-size:clamp(1.5rem,6vw,2.8rem)}
+  .hero-title{font-size:clamp(1.8rem,8vw,3.2rem);letter-spacing:0.04em}
+  .hero-sub{font-size:0.65rem;letter-spacing:0.16em}
+  .hero-desc{font-size:0.9rem;margin-top:18px}
+  .hero-cta{margin-top:28px;padding:12px 28px;font-size:0.68rem;letter-spacing:0.14em}
+  .hero-div{width:220px}
+  #ctaTimer{font-size:0.7rem;margin-left:8px;padding-left:8px}
+
+  .cat-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .cat-card{padding:20px 12px 18px}
+  .cat-icon-big{font-size:1.8rem;margin-bottom:8px}
+  .cat-name{font-size:0.65rem;letter-spacing:0.1em}
+  .cat-count{font-size:0.6rem}
+
+  .quote-banner{padding:48px 20px}
+  .quote-banner::before{font-size:8rem}
+  .quote-ar{font-size:1.2rem}
+  .quote-tr{font-size:0.88rem}
+  .quote-src{font-size:0.6rem}
+
+  .filter-wrap{gap:8px;margin-bottom:24px}
+  .filter-lbl{font-size:0.58rem;width:100%;margin-bottom:2px}
+  .f-btn{padding:5px 12px;font-size:0.56rem;letter-spacing:0.1em}
+
+  .books-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .book-info{padding:14px 12px 12px}
+  .book-title{font-size:0.95rem}
+  .book-author{font-size:0.72rem;margin-bottom:6px}
+  .book-excerpt{font-size:0.75rem;-webkit-line-clamp:2}
+  .detail-btn{padding:6px 12px;font-size:0.54rem;margin-top:10px}
+
+  .about-grid{grid-template-columns:1fr;gap:32px}
+  .about-ornament{width:200px;height:200px}
+  .about-ornament-txt{font-size:3rem}
+  .about-body{font-size:0.88rem}
+
+  .contact-box{padding:28px 18px}
+  .contact-box p{font-size:0.85rem}
+  .contact-links{flex-direction:column;align-items:center;gap:10px}
+  .contact-link{width:100%;max-width:260px;text-align:center;padding:12px 20px;font-size:0.62rem}
+
+  footer{padding:36px 20px}
+  .footer-brand{font-size:0.85rem}
+  .footer-text{font-size:0.68rem}
+  .footer-ar{font-size:0.9rem}
+
+  .detail-back-bar{padding:10px 18px;gap:10px;height:auto;flex-wrap:wrap}
+  .back-btn{font-size:0.6rem}
+  .breadcrumb{font-size:0.55rem;flex-wrap:wrap;gap:4px}
+  .detail-hero{grid-template-columns:1fr;gap:24px;padding:22px 18px}
+  .detail-cover{max-width:180px;margin:0 auto}
+  .detail-cover-img .cover-icon{font-size:3.2rem}
+  .detail-cover-img .cover-title-ar{font-size:0.9rem}
+  .detail-meta{padding-top:0}
+  .detail-title{font-size:1.5rem}
+  .detail-author{font-size:0.88rem;margin-bottom:18px}
+  .detail-text{font-size:0.88rem}
+  .detail-props{grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+  .prop-item{padding:10px 12px}
+  .prop-key{font-size:0.5rem}
+  .prop-val{font-size:0.78rem}
+  .detail-body{padding:0 18px 48px}
+  .detail-section{margin-bottom:32px}
+  .detail-section p{font-size:0.86rem}
+  .detail-section-title{font-size:0.62rem;letter-spacing:0.16em}
+  .detail-quote{padding:12px 16px}
+  .detail-quote .dq-ar{font-size:1rem}
+  .detail-quote .dq-tr{font-size:0.78rem}
+  .related-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .related-title{font-size:0.85rem}
+  .related-author{font-size:0.66rem}
+}
+
+/* ── SMALL MOBILE ── */
+@media(max-width:400px){
+  .cat-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .books-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .hero-title{font-size:clamp(1.5rem,9vw,2.5rem)}
+  .detail-props{grid-template-columns:1fr}
+  .related-grid{grid-template-columns:1fr 1fr}
+  .f-btn{padding:5px 9px;font-size:0.52rem}
+  .filter-lbl{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand" onclick="showMain()">İlim ve <span>Menhec</span></div>
+  <ul class="nav-links">
+    <li><a onclick="showMain();doScroll('kitaplar')">Kitaplar</a></li>
+    <li><a onclick="showMain();doScroll('kategoriler')">Kategoriler</a></li>
+    <li><a onclick="showMain();doScroll('hakkinda')">Hakkında</a></li>
+    <li><a onclick="showMain();doScroll('iletisim')">İletişim</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menü">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a onclick="closeMobileMenu();showMain();doScroll('kitaplar')">Kitaplar</a>
+  <a onclick="closeMobileMenu();showMain();doScroll('kategoriler')">Kategoriler</a>
+  <a onclick="closeMobileMenu();showMain();doScroll('hakkinda')">Hakkında</a>
+  <a onclick="closeMobileMenu();showMain();doScroll('iletisim')">İletişim</a>
+</div>
+
+<!-- MAIN PAGE -->
+<div id="mainPage" class="page active">
+
+<div class="hero">
+  <div class="arabic-header">بِسْمِ اللّٰهِ الرَّحْمَنِ الرَّحِيمِ</div>
+  <div class="hero-div"><div class="diamond"></div></div>
+  <h1 class="hero-title">İlim ve <span>Menhec</span></h1>
+  <p class="hero-sub">İslami Kitap Tanıtım Sitesi</p>
+  <p class="hero-desc">Ehl-i Sünnet vel-Cemaat akidesine, sahih ilme ve doğru menhece davet eden seçkin eserlerin tanıtıldığı bu köşeye hoş geldiniz.</p>
+  <a onclick="doScroll('kategoriler')" class="hero-cta" id="heroCta">
+    <span id="ctaText">Kategorileri Keşfet</span>
+    <span id="ctaTimer" style="display:inline-block;margin-left:12px;min-width:20px;font-size:0.75rem;opacity:0.75;letter-spacing:0.05em;border-left:1px solid rgba(212,168,75,0.35);padding-left:10px;"></span>
+  </a>
+</div>
+
+<div class="orn-div">
+  <div class="orn-line l"></div><span class="orn-star">✦</span><div class="orn-line r"></div>
+</div>
+
+<section id="kategoriler">
+  <div class="sec-label">Konular</div>
+  <h2 class="sec-title">Kategoriler</h2>
+  <p class="sec-desc">Bir kategoriye tıklayarak o alana ait kitaplara ulaşın.</p>
+  <div class="cat-grid">
+    <div class="cat-card" id="cat-akide"  onclick="selectCat('akide')"><span class="cat-icon-big">☪</span><div class="cat-name">Akide</div><div class="cat-count">4 Eser</div></div>
+    <div class="cat-card" id="cat-tefsir" onclick="selectCat('tefsir')"><span class="cat-icon-big">📖</span><div class="cat-name">Tefsir</div><div class="cat-count">4 Eser</div></div>
+    <div class="cat-card" id="cat-hadis"  onclick="selectCat('hadis')"><span class="cat-icon-big">📜</span><div class="cat-name">Hadis</div><div class="cat-count">4 Eser</div></div>
+    <div class="cat-card" id="cat-fikih"  onclick="selectCat('fikih')"><span class="cat-icon-big">⚖️</span><div class="cat-name">Fıkıh</div><div class="cat-count">4 Eser</div></div>
+    <div class="cat-card" id="cat-siyer"  onclick="selectCat('siyer')"><span class="cat-icon-big">🕌</span><div class="cat-name">Siyer</div><div class="cat-count">4 Eser</div></div>
+    <div class="cat-card" id="cat-menhec" onclick="selectCat('menhec')"><span class="cat-icon-big">🌙</span><div class="cat-name">Menhec</div><div class="cat-count">4 Eser</div></div>
+  </div>
+</section>
+
+<div class="quote-banner">
+  <div class="quote-ar">طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ</div>
+  <p class="quote-tr">"İlim öğrenmek her Müslüman'a farzdır."</p>
+  <div class="quote-src">— İbn Mâce, Mukaddime, 17</div>
+</div>
+
+<section id="kitaplar">
+  <div class="sec-label">Seçkin Eserler</div>
+  <h2 class="sec-title" id="booksTitle">Öne Çıkan Kitaplar</h2>
+  <p class="sec-desc" id="booksDesc">Sahih ilim yolunda rehber olacak temel eserlerden bir seçki.</p>
+  <div class="filter-wrap">
+    <span class="filter-lbl">Filtrele:</span>
+    <button class="f-btn active" onclick="filterBooks('tümü',this)">Tümü</button>
+    <button class="f-btn" onclick="filterBooks('akide',this)">Akide</button>
+    <button class="f-btn" onclick="filterBooks('tefsir',this)">Tefsir</button>
+    <button class="f-btn" onclick="filterBooks('hadis',this)">Hadis</button>
+    <button class="f-btn" onclick="filterBooks('fikih',this)">Fıkıh</button>
+    <button class="f-btn" onclick="filterBooks('siyer',this)">Siyer</button>
+    <button class="f-btn" onclick="filterBooks('menhec',this)">Menhec</button>
+  </div>
+  <div class="books-grid" id="booksGrid"></div>
+</section>
+
+<section id="hakkinda">
+  <div class="about-grid">
+    <div>
+      <div class="about-ornament">
+        <svg viewBox="0 0 200 200"><polygon points="100,10 190,55 190,145 100,190 10,145 10,55" fill="none" stroke="#d4a84b" stroke-width="1"/><polygon points="100,30 170,65 170,135 100,170 30,135 30,65" fill="none" stroke="#d4a84b" stroke-width="0.6"/><circle cx="100" cy="100" r="45" fill="none" stroke="#d4a84b" stroke-width="0.5"/><circle cx="100" cy="100" r="3" fill="#d4a84b"/><line x1="10" y1="100" x2="190" y2="100" stroke="#d4a84b" stroke-width="0.3"/><line x1="100" y1="10" x2="100" y2="190" stroke="#d4a84b" stroke-width="0.3"/></svg>
+        <div class="about-ornament-txt">علم</div>
+      </div>
+    </div>
+    <div>
+      <div class="sec-label">Biz Kimiz</div>
+      <h2 class="sec-title">Hakkında</h2>
+      <p class="about-body"><strong style="color:var(--gold-l)">İlim ve Menhec Kitap</strong>, Ehl-i Sünnet vel-Cemaat akidesini, sahih hadis ilmini ve selef menheci çizgisindeki eserleri tanıtmak amacıyla kurulmuş bir dijital kitap vitrindir.</p>
+      <p class="about-body">Burada tanıtılan eserler; akide, tefsir, hadis, fıkıh ve siyer gibi temel İslami ilimlere dair özenle seçilmiş kaynaklardır. Amacımız okuyucuyu doğru kaynağa yönlendirmek ve ilim yolculuğuna sağlam bir zemin kazandırmaktır.</p>
+      <p class="about-body" style="color:var(--gold-dd);font-style:italic">"Her ilmin başı Allah korkusudur."</p>
+    </div>
+  </div>
+</section>
+
+<section id="iletisim">
+  <div class="sec-label">Ulaşın</div>
+  <h2 class="sec-title" style="text-align:center;margin-bottom:36px">İletişim</h2>
+  <div class="contact-box">
+    <p>Kitap önerisi, soru veya katkı için bizimle iletişime geçebilirsiniz. Her türlü ilmî desteğe kapımız açıktır.</p>
+    <div class="contact-links">
+      <a href="/cdn-cgi/l/email-protection#b6d4dfdad1dff6dfdadfdbc0d3dbd3d8ded3d598d5d9db" class="contact-link">✉ E-posta</a>
+      <a href="#" class="contact-link">📱 WhatsApp</a>
+      <a href="#" class="contact-link">🐦 Twitter / X</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">İlim ve Menhec Kitap</div>
+  <div class="footer-text">© 2025 — Ehl-i Sünnet vel-Cemaat yolunda ilim ve davet</div>
+  <div class="footer-ar">وَفَوْقَ كُلِّ ذِي عِلْمٍ عَلِيمٌ</div>
+</footer>
+</div><!-- /mainPage -->
+
+<!-- DETAIL PAGE -->
+<div id="detailPage" class="page">
+  <div class="detail-back-bar">
+    <button class="back-btn" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15,18 9,12 15,6"/></svg>
+      Geri Dön
+    </button>
+    <div class="breadcrumb">
+      <span>Ana Sayfa</span><span>›</span>
+      <span id="breadCat">—</span><span>›</span>
+      <span id="breadTitle" style="color:var(--gold)">—</span>
+    </div>
+  </div>
+  <div class="detail-hero">
+    <div class="detail-cover">
+      <div class="detail-cover-img" id="detailCoverEl"></div>
+    </div>
+    <div class="detail-meta">
+      <div class="detail-badge" id="detailBadge"></div>
+      <div class="detail-title" id="detailTitle"></div>
+      <div class="detail-author" id="detailAuthor"></div>
+      <div class="detail-divider"></div>
+      <div class="detail-label">Kısa Tanıtım</div>
+      <div class="detail-text" id="detailShort"></div>
+      <div class="detail-props" id="detailProps"></div>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-section">
+      <div class="detail-section-title">Eserin Önemi</div>
+      <div id="detailLong"></div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Alimlerden Değerlendirme</div>
+      <div id="detailQuote"></div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">İlgili Eserler</div>
+      <div class="related-grid" id="relatedGrid"></div>
+    </div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const books=[
+  {id:'akide-1',cat:'akide',catLabel:'Akide',icon:'☪',titleAr:'كِتَابُ التَّوْحِيدِ',title:"Kitâbu't-Tevhîd",author:'Muhammed b. Abdülvehhâb',tag:'Temel Eser',excerpt:"Tevhid ilminin temel taşı; şirk çeşitleri ve Allah'a ibadetin hakikati üzerine kapsamlı eser.",short:"Tevhid ilminin temel taşlarından biri olan bu eser; ibadette tevhid, şirkin tehlikesi ve Allah'a kulluğun hakikati üzerine Kur'an ayetleri ve sahih hadislerle kurulu kapsamlı bir çalışmadır.",props:[{k:'Dil',v:'Arapça (Türkçe çevirisi mevcut)'},{k:'Konu',v:'İtikad / Tevhid'},{k:'Seviye',v:'Başlangıç – Orta'},{k:'Dönem',v:'12. Yüzyıl Hicri'}],long:`<p>Kitâbu't-Tevhîd, Muhammed b. Abdülvehhâb'ın İslam akidesinin en temel meselesine dair kaleme aldığı başyapıtıdır. Eser, sade ve anlaşılır bir dille ibadetin yalnızca Allah'a ait olduğunu, şirkin boyutlarını ve tevhidin hayata yansımalarını işler.</p><p>Her bölüm, doğrudan Kur'an ayetleri ve sahih hadislerle desteklenmekte; elde edilen sonuçlar kısa ve öz ifadelerle aktarılmaktadır. Bu yapısıyla hem ilim talebeleri hem de genel okuyucu kitlesi için ideal bir başlangıç eseri niteliği taşır.</p><p>Yüzyıllar boyunca milyonlarca kez basılmış, pek çok dile çevrilmiş ve sayısız şerh yazılmış olan bu eser, Ehl-i Sünnet akide literatürünün vazgeçilmez bir başvuru kaynağı olmaya devam etmektedir.</p>`,quote:{ar:'التَّوْحِيدُ هُوَ إِفْرَادُ اللهِ بِالْعِبَادَةِ',tr:'"Tevhid; ibadeti yalnızca Allah\'a has kılmaktır." — Muhammed b. Abdülvehhâb'}},
+  {id:'akide-2',cat:'akide',catLabel:'Akide',icon:'📘',titleAr:'لُمْعَةُ الِاعْتِقَادِ',title:"Lüm'atü'l-İ'tikad",author:'İbn Kudâme el-Makdisî',tag:'Risale',excerpt:"Ehl-i Sünnet itikadını sade ve öz biçimde anlatan ilim talebesine yönelik değerli risale.",short:"İbn Kudâme'nin kaleme aldığı bu kısa risale, Ehl-i Sünnet itikadının temel meselelerini özlü biçimde aktarmaktadır. Allah'ın sıfatları, nübüvvet, kader ve ahiret konularını kapsayan eser, hâlâ yaygın biçimde okutulmaktadır.",props:[{k:'Dil',v:'Arapça (Türkçe çevirisi mevcut)'},{k:'Konu',v:'İtikad'},{k:'Seviye',v:'Başlangıç'},{k:'Dönem',v:'6. Yüzyıl Hicri'}],long:`<p>Lüm'atü'l-İ'tikad, İbn Kudâme el-Makdisî'nin İslam akidesini sistematik biçimde özetlediği kıymetli bir risaledir. Kısa hacmine karşın derinlikli bir muhtevaya sahip olan eser, selefin akide anlayışını en saf haliyle yansıtır.</p><p>Allah'ın isim ve sıfatlarının ispat edilmesi, Kur'an'ın Allah'ın kelamı olduğu, sahabe ve tabiînin önemi gibi temel meseleler risalenin omurgasını oluşturur. Eser, akide ilmine başlayanlar için mükemmel bir giriş metni olma özelliğini korumaktadır.</p>`,quote:{ar:'وَصِفَاتُهُ تَعَالَى كُلُّهَا صِفَاتُ كَمَالٍ',tr:'"Allah Teâlâ\'nın tüm sıfatları kemal sıfatlarıdır." — İbn Kudâme'}},
+  {id:'akide-3',cat:'akide',catLabel:'Akide',icon:'📗',titleAr:'الْعَقِيدَةُ الطَّحَاوِيَّةُ',title:"el-Akîdetü't-Tahâviyye",author:'İmam Tahâvî',tag:'Klasik Metin',excerpt:"Ehl-i Sünnet'in ittifakla kabul ettiği temel inanç maddelerini derleyen metin.",short:"İmam Tahâvî'nin kaleme aldığı bu eser, Ehl-i Sünnet vel-Cemaat'in inanç esaslarını 100'den fazla madde halinde sade bir dille özetlemektedir. Asırlardır medreselerde okutulan bu kısa metin, üzerine onlarca şerh yazılmış bir başvuru kaynağıdır.",props:[{k:'Dil',v:'Arapça (Türkçe şerh mevcut)'},{k:'Konu',v:'İtikad'},{k:'Seviye',v:'Başlangıç – Orta'},{k:'Dönem',v:'3. Yüzyıl Hicri'}],long:`<p>Tahâviyye, İmam Ebû Ca'fer et-Tahâvî'nin (ö. 321/933) Ehl-i Sünnet inancını özetlediği kısa fakat son derece önemli bir akide metnidir. Mütevazı hacmine rağmen her satırında derin bir ilim birikimi yansıtmaktadır.</p><p>Eser; Allah'ın birliği, sıfatları, kader, imân-amel ilişkisi, sahabe haklarına saygı ve ahiret gibi temel meseleleri akıcı ve veciz bir üslupla ele almaktadır. İbn Ebi'l-İzz'in şerhi başta olmak üzere pek çok değerli şerhe konu olmuştur.</p>`,quote:{ar:'وَنَقُولُ إِنَّ اللهَ اتَّخَذَ إِبْرَاهِيمَ خَلِيلًا',tr:'"Deriz ki: Allah İbrahim\'i halil (dost) edindi." — İmam Tahâvî'}},
+  {id:'akide-4',cat:'akide',catLabel:'Akide',icon:'📙',titleAr:'الْعَقِيدَةُ الْوَاسِطِيَّةُ',title:'el-Vâsıtiyye',author:'İbn Teymiyye',tag:'Risale',excerpt:"Allah'ın isim ve sıfatlarını Kur'an ve sünnet çerçevesinde izah eden önemli risale.",short:"Şeyhülislam İbn Teymiyye'nin Irak'ın Vâsıt şehrindeki kadı için kaleme aldığı bu risale, Allah Teâlâ'nın isim ve sıfatlarını te'vil ve teşbihten uzak, selefin yolunu izleyerek ispat eder.",props:[{k:'Dil',v:'Arapça (Türkçe çevirisi mevcut)'},{k:'Konu',v:'Sıfatlar / İtikad'},{k:'Seviye',v:'Orta'},{k:'Dönem',v:'7. Yüzyıl Hicri'}],long:`<p>el-Vâsıtiyye, Şeyhülislam İbn Teymiyye'nin (ö. 728/1328) akide sahasındaki en berrak ve en özlü eserlerinden biridir. Kısa oluşuna rağmen muhteva bakımından son derece değerlidir.</p><p>Eser; Allah'ın isim ve sıfatlarını ne tashih ederek (ta'til) inkâr eden ne de O'nu yaratıklara benzetecek şekilde (teşbih) anlayan yaklaşımları reddeder. Selefin bu konudaki tutumunu Kur'an ve sahih hadislerden delillerle ortaya koyar.</p>`,quote:{ar:'وَكَذَلِكَ سَائِرُ مَا وَصَفَ بِهِ نَفْسَهُ',tr:'"Allah Teâlâ\'nın kendini nitelendirdiği tüm sıfatlar için de aynı yol izlenir." — İbn Teymiyye'}},
+
+  {id:'tefsir-1',cat:'tefsir',catLabel:'Tefsir',icon:'📖',titleAr:'تَفْسِيرُ السَّعْدِي',title:"Tefsîru's-Sa'dî",author:"Abdurrahmân es-Sa'dî",tag:'Tefsir',excerpt:"Anlaşılır üslubu ve zengin manaları ile günümüzde yaygınlaşan Kur'ân tefsiri.",short:"Tam adıyla Teysîru'l-Kerîmi'r-Rahmân olan bu tefsir, Abdurrahmân es-Sa'dî'nin sade ve berrak bir dille kaleme aldığı modern dönemin en faydalı tefsirlerinden biridir. Her âyeti Kur'an bütünlüğünde ele alır.",props:[{k:'Dil',v:'Arapça (Türkçe çevirisi mevcut)'},{k:'Konu',v:'Tefsir'},{k:'Seviye',v:'Başlangıç – Orta'},{k:'Dönem',v:'14. Yüzyıl Hicri'}],long:`<p>Tefsîru's-Sa'dî, çağdaş tefsir literatürünün en değerli eserlerinden biri olarak kabul edilmektedir. Yazar, her sureyi okuyucunun kolayca anlayacağı sade bir üslupla tefsir etmekte, teknik terimlerden kaçınarak mesajı doğrudan iletmeyi hedeflemektedir.</p><p>Eser; âyetlerin Kur'an bütünlüğüyle açıklanması, ahlaki çıkarımların vurgulanması ve iman-amel bütünlüğüne sürekli atıf yapılması bakımından öne çıkmaktadır. Günümüzde hane halklarının birlikte okuyabileceği en uygun tefsir olarak nitelendirilmektedir.</p>`,quote:{ar:'فَتَأَمَّلْ هَذَا الْقُرْآنَ الْعَظِيمَ',tr:'"Bu büyük Kur\'an üzerinde derin derin düşün." — es-Sa\'dî'}},
+  {id:'tefsir-2',cat:'tefsir',catLabel:'Tefsir',icon:'📕',titleAr:'تَفْسِيرُ ابْنِ كَثِيرٍ',title:'Tefsîru İbn Kesîr',author:'İbn Kesîr ed-Dımaşkî',tag:'Kapsamlı Tefsir',excerpt:"Kur'an'ı Kur'an ve sahih hadislerle açıklayan rivayet tefsirinin şaheseri.",short:"Tam adıyla Tefsîru'l-Kur'âni'l-Azîm olan bu eser, selefin yolunu izleyerek Kur'an'ı Kur'an ile açıkladığı devâsâ rivayet tefsiridir. Sahih hadis ve sahabe görüşlerine dayanan sağlam metodu sayesinde asırlardır güvenilirliğini korumaktadır.",props:[{k:'Dil',v:'Arapça (Türkçe özet çevirisi mevcut)'},{k:'Konu',v:'Rivayet Tefsiri'},{k:'Seviye',v:'Orta – İleri'},{k:'Dönem',v:'8. Yüzyıl Hicri'}],long:`<p>İbn Kesîr ed-Dımaşkî'nin (ö. 774/1373) kaleme aldığı bu kapsamlı tefsir, İslam dünyasının en muteber rivayet tefsiri olma özelliğini korumaktadır. Eser; âyetleri önce diğer Kur'an âyetleriyle, ardından sahih hadislerle açıklamaktadır.</p><p>İbn Kesîr, hadis eleştirisi konusundaki uzmanlığını tefsire yansıtmış; zayıf veya uydurma rivayetleri titizlikle tespit etmiş ve okuyucuyu bunlara karşı uyarmıştır.</p>`,quote:{ar:'أَصَحُّ طُرُقِ التَّفْسِيرِ تَفْسِيرُ الْقُرْآنِ بِالْقُرْآنِ',tr:'"Tefsirin en doğru yolu Kur\'an\'ı Kur\'an ile açıklamaktır." — İbn Kesîr'}},
+  {id:'tefsir-3',cat:'tefsir',catLabel:'Tefsir',icon:'📒',titleAr:"الإِتْقَانُ فِي عُلُومِ الْقُرْآنِ",title:"el-İtkân fî Ulûmi'l-Kur'ân",author:'İmam Suyûtî',tag:"Ulûmu'l-Kur'ân",excerpt:"Kur'an ilimlerini seksen başlık altında işleyen ansiklopedik eser.",short:"İmam Suyûtî'nin kaleme aldığı bu eser, Kur'an ilimlerini seksen'den fazla başlık altında inceleyen ansiklopedik bir çalışmadır. Nüzul sebepleri, kıraatler, nesih-mensuh ve i'câzu'l-Kur'an konuları derinlikli biçimde ele alınmaktadır.",props:[{k:'Dil',v:'Arapça'},{k:'Konu',v:"Ulûmu'l-Kur'ân"},{k:'Seviye',v:'Orta – İleri'},{k:'Dönem',v:'9. Yüzyıl Hicri'}],long:`<p>el-İtkân, Kur'an ilimlerine dair yazılmış en kapsamlı klasik eserlerden biri kabul edilmektedir. İmam Suyûtî (ö. 911/1505), kendisinden önceki birikim üzerine inşa ettiği bu ansiklopedik çalışmasında 80'i aşkın Kur'an ilmine dair meseleyi ele almaktadır.</p><p>Her bölüm, konuya ilişkin temel tanımı, tarihi arka planı ve önemli görüşleri aktarmaktadır. Tefsir alanında uzmanlaşmak isteyen her talib için bu eser, erken dönem ilim mirasına açılan bir kapı niteliği taşımaktadır.</p>`,quote:{ar:'عُلُومُ الْقُرْآنِ كَثِيرَةٌ لَا تُحْصَى',tr:'"Kur\'an ilimlerinin sayısı pek çok olup ihata edilemez." — Suyûtî'}},
+  {id:'tefsir-4',cat:'tefsir',catLabel:'Tefsir',icon:'📔',titleAr:'زَادُ الْمَسِيرِ',title:"Zâdü'l-Mesîr",author:"İbnü'l-Cevzî",tag:'Veciz Tefsir',excerpt:"Selef âlimlerinin görüşlerini derleyen öz ve veciz tefsir.",short:"İbnü'l-Cevzî'nin derlediği bu tefsir, selef âlimlerinin görüşlerini titizlikle aktararak kısa ve öz bir biçimde sunmaktadır. İlim talebelerinin başvurduğu güvenilir kaynaklardan biri olan eser, kapsamlı olmakla birlikte anlaşılır bir üsluba sahiptir.",props:[{k:'Dil',v:'Arapça'},{k:'Konu',v:'Tefsir'},{k:'Seviye',v:'Orta'},{k:'Dönem',v:'6. Yüzyıl Hicri'}],long:`<p>İbnü'l-Cevzî (ö. 597/1200), Zâdü'l-Mesîr adlı bu eserinde selefin tefsir birikimini özlü ve sistematik biçimde aktarmaktadır. Eser; her âyet için en önemli görüşleri derleyerek kısa yorumlar sunmakta, böylece hem anlaşılır hem de ilmî açıdan doyurucu bir tefsir ortaya koymaktadır.</p>`,quote:{ar:'مَنْ أَرَادَ فَهْمَ الْقُرْآنِ فَلْيَتَفَكَّرْ',tr:'"Kur\'an\'ı anlamak isteyen düşünsün ve tefekkür etsin." — İbnü\'l-Cevzî'}},
+
+  {id:'hadis-1',cat:'hadis',catLabel:'Hadis',icon:'📜',titleAr:"رِيَاضُ الصَّالِحِينَ",title:"Riyâzu's-Sâlihîn",author:'İmam Nevevî',tag:'Hadis Derleme',excerpt:"Kur'an ve sünnet âdâbını bir araya toplayan seçkin hadis derlemesi.",short:"İmam Nevevî'nin derlediği bu eser, ibadet, ahlak, muamelat ve zikir gibi pek çok konuyu kapsayan hadis mecmuasıdır. Her bölüm ilgili Kur'an ayetiyle açılmakta ve buna uygun hadislerle sürdürülmektedir.",props:[{k:'Dil',v:'Arapça (Türkçe çevirisi mevcut)'},{k:'Konu',v:'Ahlak / İbadet Hadisleri'},{k:'Seviye',v:'Başlangıç – Orta'},{k:'Dönem',v:'7. Yüzyıl Hicri'}],long:`<p>Riyâzu's-Sâlihîn, İmam Nevevî'nin (ö. 676/1277) hayatın her alanına dair sahih hadisleri derlediği ve bugün dünyada en çok okunan İslami eserler arasında yer alan şaheseridir. Yaklaşık 2000 hadisi kapsayan eser, 372 bölümde düzenlenmiştir.</p><p>Her bölüm bir Kur'an âyetiyle başlamakta ve konu ile ilgili en sağlam hadislerle devam etmektedir. Bu yapısı, eseri hem ilim talebeleri hem de genel okuyucu kitlesi için son derece erişilebilir kılmaktadır.</p>`,quote:{ar:'إِنَّ اللهَ يُحِبُّ الرِّفْقَ فِي الْأَمْرِ كُلِّهِ',tr:'"Allah her işte yumuşaklığı sever." — (Buhârî\'den)'}},
+  {id:'hadis-2',cat:'hadis',catLabel:'Hadis',icon:'📃',titleAr:'الأَرْبَعُونَ النَّوَوِيَّةُ',title:'el-Erbaûn en-Neveviyye',author:'İmam Nevevî',tag:'Başlangıç',excerpt:"İslam'ın temel ilkelerini özetleyen kırk hadisi derleyen şaheser.",short:"İmam Nevevî'nin derlediği bu eser, İslam'ın temel ilkelerini kapsayan 42 hadisi bir araya getirmektedir. Her hadis dinin bir köşe taşını özetlemekte olup yüzyıllardır ilim meclislerinde ezberlenip okutulmaktadır.",props:[{k:'Dil',v:'Arapça (Türkçe şerhleri mevcut)'},{k:'Konu',v:'Temel Hadisler'},{k:'Seviye',v:'Başlangıç'},{k:'Dönem',v:'7. Yüzyıl Hicri'}],long:`<p>Kırk Hadis (el-Erbaûn), İslam âleminde belki de en fazla okunan, ezberlenen ve üzerine şerh yazılan hadis derlemesidir. İmam Nevevî, 42 hadisi dikkatle seçmiş ve her birinin dinin temel bir ilkesini temsil ettiğini belirtmiştir.</p><p>İbn Receb el-Hanbelî'nin şerhi başta olmak üzere pek çok değerli şerh bu esere yazılmıştır. İlim hayatına başlayanların ilk ezberlemesi gereken kaynak olarak kabul edilmektedir.</p>`,quote:{ar:'إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ',tr:'"Ameller ancak niyetlere göredir." — (Buhârî)'}},
+  {id:'hadis-3',cat:'hadis',catLabel:'Hadis',icon:'📄',titleAr:"بُلُوغُ الْمَرَامِ",title:"Bulûğu'l-Merâm",author:'İbn Hacer el-Askalânî',tag:'Ahkâm Hadisleri',excerpt:"Fıkhi hükümlere dayanak olan ahkâm hadislerini derleyen kritik kaynak.",short:"İbn Hacer el-Askalânî'nin fıkhi hükümlere esas olan hadisleri derlediği bu eser, her hadisin senet durumunu da belirtmesi bakımından eşsizdir. Taharettan muamelata uzanan geniş fıkıh konularını kapsamaktadır.",props:[{k:'Dil',v:'Arapça (Türkçe çevirisi mevcut)'},{k:'Konu',v:'Ahkâm Hadisleri'},{k:'Seviye',v:'Orta'},{k:'Dönem',v:'8. Yüzyıl Hicri'}],long:`<p>Bulûğu'l-Merâm, İbn Hacer el-Askalânî'nin (ö. 852/1449) fıkhi hükümlere kaynaklık eden hadisleri özenle derlediği eseridir. 1400'ü aşkın hadisi kapsayan bu çalışma; taharet, namaz, zekât, oruç, hac, nikâh ve ceza hukukuna kadar geniş bir yelpazeyi kapsamaktadır.</p><p>Eserin en önemli özelliği, her hadisin ardından yazarın kısa senet değerlendirmesi sunmasıdır.</p>`,quote:{ar:'الطَّهُورُ شَطْرُ الإِيمَانِ',tr:'"Temizlik imanın yarısıdır." — (Müslim\'den)'}},
+  {id:'hadis-4',cat:'hadis',catLabel:'Hadis',icon:'🗒️',titleAr:"الْجَامِعُ الصَّحِيحُ",title:"el-Câmiu's-Sahîh",author:'İmam Buhârî',tag:'Temel Hadis',excerpt:"Kur'an'dan sonra en sahih kitap; titiz tasnifle düzenlenmiş hadis külliyatı.",short:"İmam Buhârî'nin on altı yılda tamamladığı bu eser, İslam ilim tarihinin en büyük hadis külliyatlarından biridir. 600.000'den fazla hadisi inceleyerek yalnızca sahih gördüğü hadisleri eserine almıştır.",props:[{k:'Dil',v:'Arapça (Türkçe çevirisi mevcut)'},{k:'Konu',v:'Sahih Hadis Külliyatı'},{k:'Seviye',v:'Orta – İleri'},{k:'Dönem',v:'3. Yüzyıl Hicri'}],long:`<p>Sahîh-i Buhârî, İmam Buhârî'nin (ö. 256/870) titiz hadis eleştiri metoduyla derlediği bu başyapıt, İslam ilim tarihinin zirve eserlerinden biridir. Yazar, her hadisi almadan önce ravi zincirini ince eleyip sık dokumuştur.</p><p>Eserin bölüm başlıklarının (terâcim) birer fıkhi hüküm içermesi, Buhârî'nin yalnızca bir hadisçi değil aynı zamanda derin bir fâkih olduğunu ortaya koymaktadır.</p>`,quote:{ar:'مَنْ كَذَبَ عَلَيَّ مُتَعَمِّدًا فَلْيَتَبَوَّأْ مَقْعَدَهُ مِنَ النَّارِ',tr:'"Kim bilerek benim üzerime yalan söylerse cehennemdeki yerine hazırlansın." — (Buhârî)'}},
+
+  {id:'fikih-1',cat:'fikih',catLabel:'Fıkıh',icon:'⚖️',titleAr:"عُمْدَةُ الْفِقْهِ",title:"Umdetü'l-Fıkh",author:'İbn Kudâme el-Makdisî',tag:'Fıkıh Metni',excerpt:"Hanbelî fıkhının özlü özeti; ibadet ve muamelat konularında güvenilir eser.",short:"İbn Kudâme'nin öğrencilerine yönelik kaleme aldığı bu eser, Hanbelî fıkhının temel meselelerini açık ve anlaşılır bir dille sunmaktadır. İbadetlerden alım-satım işlemlerine, nikâhtan mirasa uzanan geniş konuları kısa formatta aktarmaktadır.",props:[{k:'Dil',v:'Arapça (Türkçe şerhleri mevcut)'},{k:'Konu',v:'Hanbelî Fıkhı'},{k:'Seviye',v:'Başlangıç'},{k:'Dönem',v:'6. Yüzyıl Hicri'}],long:`<p>Umdetü'l-Fıkh, İbn Kudâme el-Makdisî'nin (ö. 620/1223) fıkıh öğrenmeye başlayanlar için hazırladığı veciz bir metindir. Hanbelî fıkhının temel meselelerini taharettan başlayarak sistematik biçimde aktarmaktadır.</p><p>Özellikle medrese geleneğinde başlangıç metni olarak okutulan bu eser, üzerine pek çok şerh ve hâşiye yazılmıştır.</p>`,quote:{ar:'الطَّهَارَةُ شَرْطٌ لِصِحَّةِ الصَّلَاةِ',tr:'"Taharet namazın sıhhati için şarttır." — İbn Kudâme'}},
+  {id:'fikih-2',cat:'fikih',catLabel:'Fıkıh',icon:'🏛️',titleAr:'الْمُغْنِي',title:'el-Mugnî',author:'İbn Kudâme el-Makdisî',tag:'Kapsamlı Fıkıh',excerpt:"Hanbelî fıkhının en kapsamlı başvuru eseri; delillere dayalı mezhep mukayesesi.",short:"On iki ciltlik bu devâsâ fıkıh ansiklopedisi, Hanbelî mezhebinin görüşlerini delilleriyle birlikte açıklamakta ve diğer mezheplerle karşılaştırmalı biçimde değerlendirmektedir.",props:[{k:'Dil',v:'Arapça'},{k:'Konu',v:'Mukayeseli Fıkıh'},{k:'Seviye',v:'İleri'},{k:'Dönem',v:'6. Yüzyıl Hicri'}],long:`<p>el-Mugnî, fıkıh literatürünün en kapsamlı eserlerinden biri olarak kabul edilmektedir. İbn Kudâme, yalnızca Hanbelî görüşlerini aktarmakla kalmayıp diğer mezheplerin delillerini de titizlikle ele almış ve değerlendirmiştir.</p><p>Eser, hukuki meselelerde bağımsız görüş geliştirmek isteyen âlimler için vazgeçilmez bir kaynak olmuştur.</p>`,quote:{ar:'الْأَصْلُ فِي الْعِبَادَاتِ الْحَظْرُ',tr:'"İbadetlerde asıl olan yasaklılıktır." — İbn Kudâme'}},
+  {id:'fikih-3',cat:'fikih',catLabel:'Fıkıh',icon:'🔖',titleAr:"زَادُ الْمُسْتَقْنِعِ",title:"Zâdü'l-Müstekni",author:'el-Haccâvî',tag:'Fıkıh Metni',excerpt:"Hanbelî fıkhını veciz ifadelerle derleyen; üzerine sayısız şerh yazılmış metin.",short:"Hanbelî fıkıh geleneğinde en çok okutulan ve üzerine en fazla şerh yazılan metinlerden biridir. el-Haccâvî'nin kaleme aldığı bu veciz metin, Hanbelî mezhebinin muteber görüşlerini son derece yoğun bir dille aktarmaktadır.",props:[{k:'Dil',v:'Arapça (Şerhli Türkçe çevirileri mevcut)'},{k:'Konu',v:'Hanbelî Fıkhı'},{k:'Seviye',v:'Orta'},{k:'Dönem',v:'10. Yüzyıl Hicri'}],long:`<p>Zâdü'l-Müstekni', el-Haccâvî'nin (ö. 968/1560) Hanbelî fıkhını son derece yoğun ve veciz bir dille özetlediği kritik bir metindir. Metnin kısalığına karşın taşıdığı derin anlam yükü, onu şerh yazımının gözde kaynakları arasına sokmuştur.</p><p>İbn Useymîn'in eş-Şerhu'l-Mümti' adlı muazzam şerhi bu metin üzerine yazılmıştır ve günümüzde birlikte okunmaktadır.</p>`,quote:{ar:'كُلُّ مُسْكِرٍ خَمْرٌ وَكُلُّ خَمْرٍ حَرَامٌ',tr:'"Her sarhoş edici içecek hamr hükmündedir ve her hamr haramdır." — (Hadisten)'}},
+  {id:'fikih-4',cat:'fikih',catLabel:'Fıkıh',icon:'📋',titleAr:'الْمُوَافَقَاتُ',title:"el-Muvafakât",author:'İmam Şâtıbî',tag:"Usûl-i Fıkıh",excerpt:"İslam hukukunun maksatlarını inceleyen; makasıd düşüncesinin temel kaynağı.",short:"İmam Şâtıbî'nin bu devâsâ eseri, İslam hukukunun temel amaçları olan makasıdu'ş-şeria'yı sistematik biçimde ele almaktadır. Can, akıl, nesil, mal ve din gibi temel değerlerin korunması üzerine inşa edilen bu yaklaşım usûl-i fıkıh düşüncesini köklü biçimde dönüştürmüştür.",props:[{k:'Dil',v:'Arapça'},{k:'Konu',v:"Makasıd / Usûl-i Fıkıh"},{k:'Seviye',v:'İleri'},{k:'Dönem',v:'8. Yüzyıl Hicri'}],long:`<p>el-Muvafakât, İmam Şâtıbî'nin (ö. 790/1388) İslam hukuk metodolojisini makasıd ekseninde ele aldığı ve usûl-i fıkıh literatürünün seyrini değiştiren şaheseridir.</p><p>Şâtıbî; zarûriyyât (zorunlu değerler), hâciyyât (ihtiyaç değerleri) ve tahsîniyyât (tamamlayıcı değerler) şeklindeki üçlü sınıflandırmasıyla İslam hukukunu amaçları bakımından inceleyen özgün bir çerçeve geliştirmiştir.</p>`,quote:{ar:'الشَّرِيعَةُ مَوْضُوعَةٌ لِمَصَالِحِ الْعِبَادِ',tr:'"Şeriat, kulların maslahatı için vaz edilmiştir." — İmam Şâtıbî'}},
+
+  {id:'siyer-1',cat:'siyer',catLabel:'Siyer',icon:'🕌',titleAr:"الرَّحِيقُ الْمَخْتُومُ",title:"er-Rahîku'l-Mahtûm",author:"Safiyyu'r-Rahmân el-Mübarekfûrî",tag:'Siyer',excerpt:"Müslüman dünyasında en çok okunan siyer; akıcı üslup ve sağlam kaynakça.",short:"1979 Dünya İslami Edebiyat Yarışması'nda birincilik ödülü alan bu siyer kitabı, Hz. Peygamber'in (sas) hayatını kronolojik ve akademik bir titizlikle anlatmaktadır. Sade dili ve güvenilir kaynakçasıyla eşsiz bir eserdir.",props:[{k:'Dil',v:'Arapça (Türkçe çevirisi mevcut)'},{k:'Konu',v:"Hz. Peygamber'in Hayatı"},{k:'Seviye',v:'Başlangıç – Orta'},{k:'Dönem',v:'Çağdaş (1979)'}],long:`<p>er-Rahîku'l-Mahtûm, günümüz siyer literatürünün zirvesinde yer alan ve dünya genelinde milyonlarca Müslüman'ın okuduğu eşsiz bir eserdir. 1979 yılında Rabıta tarafından düzenlenen uluslararası yarışmada birinci olan bu çalışma, Hz. Peygamber'in (sas) doğumundan vefatına uzanan hayatını kapsamlı biçimde aktarmaktadır.</p><p>Mübarekfûrî, gazveleri ve önemli olayları coğrafi, sosyolojik ve tarihi bağlamda ele almış; savaş haritaları ve kronolojik tablolarla eseri zenginleştirmiştir.</p>`,quote:{ar:'مُحَمَّدٌ رَسُولُ اللهِ',tr:'"Muhammed Allah\'ın Resulü\'dür." — (Fetih, 29)'}},
+  {id:'siyer-2',cat:'siyer',catLabel:'Siyer',icon:'🌟',titleAr:"السِّيرَةُ النَّبَوِيَّةُ",title:"es-Sîretü'n-Nebeviyye",author:'İbn Hişâm',tag:'Klasik Siyer',excerpt:"İbn İshak'ın eserini esas alan siyer ilminin en temel klasiği.",short:"İbn Hişâm'ın Muhammed b. İshak'ın eserini esas alarak kaleme aldığı bu siyer, İslam tarih yazıcılığının ilk kapsamlı örneklerinden biridir. Hz. Peygamber'in hayatını ilk dönem kaynaklarından aktarması bakımından araştırmacılar için vazgeçilmez bir referanstır.",props:[{k:'Dil',v:'Arapça (Türkçe çevirisi mevcut)'},{k:'Konu',v:"Klasik Siyer"},{k:'Seviye',v:'Orta – İleri'},{k:'Dönem',v:'3. Yüzyıl Hicri'}],long:`<p>es-Sîretü'n-Nebeviyye, İbn Hişâm'ın (ö. 218/833) Muhammed b. İshak'ın (ö. 151/768) eserini düzenleyip kısaltarak sunduğu ilk dönem siyer literatürünün en önemli kaynağıdır.</p><p>Eser; Hz. Peygamber'in soy zincirinden başlayarak hicreti, savaşları, antlaşmaları ve vefatına uzanan süreçleri aktarmaktadır. Sonraki tüm siyer yazarları için temel bir kaynak işlevi görmüştür.</p>`,quote:{ar:'أَنَا النَّبِيُّ لَا كَذِبَ',tr:'"Ben peygamberim, bu kesindir." — (Buhârî\'den)'}},
+  {id:'siyer-3',cat:'siyer',catLabel:'Siyer',icon:'🌙',titleAr:"زَادُ الْمَعَادِ",title:"Zâdü'l-Me'âd",author:'İbn Kayyim el-Cevziyye',tag:'Kapsamlı Siyer',excerpt:"Peygamber hayatını ibadet ve fıkıh boyutuyla derinlemesine inceleyen eser.",short:"İbn Kayyim el-Cevziyye'nin kaleme aldığı bu kapsamlı eser, Hz. Peygamber'in ahlakını, ibadet hayatını ve günlük pratiklerini derinlemesine inceleyen beş ciltlik bir şaheserdir. Siyer ve fıkıh sentezini ustalıkla gerçekleştiren eserdir.",props:[{k:'Dil',v:'Arapça (Türkçe çevirisi mevcut)'},{k:'Konu',v:'Siyer / Fıkıh'},{k:'Seviye',v:'Orta – İleri'},{k:'Dönem',v:'8. Yüzyıl Hicri'}],long:`<p>Zâdü'l-Me'âd, İbn Kayyim el-Cevziyye'nin (ö. 751/1350) Hz. Peygamber'in hayatını hem siyer hem de fıkhi açıdan inceleyen benzersiz bir eserdir. Eser, Resulullah'ın (sas) ibadeti, namazı, orucu, seyahati, savaşları ve günlük yaşamındaki pratikleri tek tek ele almaktadır.</p><p>Her konuda Hz. Peygamber'in yolunu aktaran İbn Kayyim, aynı zamanda bu uygulamaların ardındaki hikmeti de açıklamaktadır.</p>`,quote:{ar:'خَيْرُ الْهَدْيِ هَدْيُ مُحَمَّدٍ',tr:'"Yolların en hayırlısı Muhammed\'in yoludur." — (Müslim\'den)'}},
+  {id:'siyer-4',cat:'siyer',catLabel:'Siyer',icon:'⭐',titleAr:"الشَّمَائِلُ الْمُحَمَّدِيَّةُ",title:"eş-Şemâilü'l-Muhammediyye",author:'İmam Tirmizî',tag:'Şemâil',excerpt:"Hz. Peygamber'in fiziki ve ahlaki özelliklerini aktaran eşsiz eser.",short:"İmam Tirmizî'nin derlediği bu eser, Hz. Peygamber'in (sas) görünüşünü, giyimini, yemesini, içmesini ve ahlakını aktaran hadisleri sistematik biçimde bir araya getirmektedir. Onu görenlerin tanıklıklarından derlenen bu eser okuyucuyu sanki Peygamber ile yüz yüze getirir.",props:[{k:'Dil',v:'Arapça (Türkçe çevirisi mevcut)'},{k:'Konu',v:'Peygamber Tasvirli Hadisler'},{k:'Seviye',v:'Başlangıç – Orta'},{k:'Dönem',v:'3. Yüzyıl Hicri'}],long:`<p>eş-Şemâilü'l-Muhammediyye, İmam Tirmizî'nin (ö. 279/892) Hz. Peygamber'in fiziksel özellikleri ve güzel ahlakına dair rivayetleri bir araya getirdiği olağanüstü bir derlemedir. Eser, 415 hadisi 55 bölümde sunmaktadır.</p><p>Onu ilk gören sahabinin "Ne kadar güzeldi!" demesi, yüzünün güneş gibi parlak olduğu tasvirleri ve ahlakını anlatan rivayetler bu eserde toplanmıştır.</p>`,quote:{ar:'كَانَ رَسُولُ اللهِ أَحْسَنَ النَّاسِ وَجْهًا',tr:'"Allah\'ın Resulü insanların en güzel yüzlüsüydü." — (Tirmizî)'}},
+
+  {id:'menhec-1',cat:'menhec',catLabel:'Menhec',icon:'🌙',titleAr:"الأُصُولُ الثَّلَاثَةُ",title:'el-Usûl es-Selâse',author:'Muhammed b. Abdülvehhâb',tag:'Başlangıç',excerpt:"Allah'ı, dini ve Peygamber'i tanımak üzerine üç temel ders.",short:"İlim hayatının giriş noktası kabul edilen bu eser, her Müslümanın bilmesi gereken üç temel soruyu ele almaktadır: Rabbini kim, dini İslam'ı kim ve Peygamberi kim? Bu sorulara verilen kapsamlı cevaplar imanın temellerini sağlam bir zemine oturtur.",props:[{k:'Dil',v:'Arapça (Türkçe şerhleri mevcut)'},{k:'Konu',v:'İlim Başlangıcı / Akide'},{k:'Seviye',v:'Başlangıç'},{k:'Dönem',v:'12. Yüzyıl Hicri'}],long:`<p>el-Usûl es-Selâse, Muhammed b. Abdülvehhâb'ın İslam eğitiminin ilk basamağına yönelik hazırladığı çok kıymetli bir risaledir. Her Müslümanın "Rabbini kim, dinini kim, Peygamberini kim?" sorularına cevap verebilmesi gerektiğinden hareketle bu üç temel bilgiyi aktarmaktadır.</p><p>Kısa ve öz anlatımı, net soru-cevap yapısı ve Kur'an-sünnet delillerine bağlı içeriğiyle eser, ilim talibinin ilk ezberlediği metinler arasında yer almaktadır.</p>`,quote:{ar:'مَعْرِفَةُ الْعَبْدِ رَبَّهُ وَدِينَهُ وَنَبِيَّهُ',tr:'"Kulun Rabbini, dinini ve peygamberini bilmesi." — (Üç temel)'}},
+  {id:'menhec-2',cat:'menhec',catLabel:'Menhec',icon:'🧭',titleAr:"اقْتِضَاءُ الصِّرَاطِ الْمُسْتَقِيمِ",title:"İktizâu's-Sırâti'l-Müstakîm",author:'İbn Teymiyye',tag:'Menhec',excerpt:"Sünnet çizgisinde yaşamanın gerekliliğini delilleriyle ortaya koyan eser.",short:"Şeyhülislam İbn Teymiyye'nin bu kapsamlı eseri, Müslümanların bid'at ve hurafelerden uzak durarak Peygamber'in ve sahabenin yolunda yürümesinin şer'i zorunluluğunu ele almaktadır.",props:[{k:'Dil',v:'Arapça (Türkçe çevirisi mevcut)'},{k:'Konu',v:"Menhec / Bid'at"},{k:'Seviye',v:'Orta – İleri'},{k:'Dönem',v:'7. Yüzyıl Hicri'}],long:`<p>İktizâu's-Sırâti'l-Müstakîm, İbn Teymiyye'nin (ö. 728/1328) Müslümanların kimliğini koruma meselesini derinlemesine ele aldığı kritik bir eserdir. Eser; ehl-i kitaba ve müşriklere benzemenin hükmünü, bid'atlerin zararlarını ve selefi menheci incelemektedir.</p>`,quote:{ar:'مَنْ تَشَبَّهَ بِقَوْمٍ فَهُوَ مِنْهُمْ',tr:'"Kim bir topluluğa benzerse o onlardandır." — (Ebû Dâvud)'}},
+  {id:'menhec-3',cat:'menhec',catLabel:'Menhec',icon:'🗺️',titleAr:'الِاعْتِصَامُ',title:"el-İ'tisâm",author:'İmam Şâtıbî',tag:'Usûl',excerpt:"Bid'at kavramını usûl ekseninde inceleyen kapsamlı çalışma.",short:"İmam Şâtıbî'nin bu iki ciltlik eseri, bid'atın tanımını, türlerini, zararlarını ve bid'atla mücadele yöntemlerini usûl perspektifinden ele almaktadır. Menhec araştırmacıları için vazgeçilmez bir başvuru kaynağıdır.",props:[{k:'Dil',v:'Arapça'},{k:'Konu',v:"Bid'at / Menhec"},{k:'Seviye',v:'İleri'},{k:'Dönem',v:'8. Yüzyıl Hicri'}],long:`<p>el-İ'tisâm, İmam Şâtıbî'nin bid'at meselesini bütün boyutlarıyla ele aldığı kapsamlı bir çalışmadır. Eser; bid'atin lügat ve ıstılah tanımlarından başlayarak türlerine, bid'at-sünnet ilişkisine, bid'atin zararlarına ve bid'atçıların şüphelerine yanıtlara uzanan geniş bir içeriğe sahiptir.</p>`,quote:{ar:'الْبِدْعَةُ طَرِيقَةٌ فِي الدِّينِ مُخْتَرَعَةٌ',tr:'"Bid\'at, dinde icat edilmiş bir yoldur." — İmam Şâtıbî'}},
+  {id:'menhec-4',cat:'menhec',catLabel:'Menhec',icon:'💡',titleAr:"حِلْيَةُ طَالِبِ الْعِلْمِ",title:"Hılye-i Talibü'l-İlm",author:'Bekr Ebû Zeyd',tag:'İlim Adabı',excerpt:"İlim talibinin ahlak, edep ve metodunu ele alan çağdaş risale.",short:"Şeyh Bekr Ebû Zeyd'in kaleme aldığı bu risale, ilim yoluna çıkan her talebenin kendini nasıl yetiştireceğini, hocasına ve kitabına nasıl davranacağını ve ilim ahlakını nasıl edineceğini pratik biçimde öğretmektedir.",props:[{k:'Dil',v:'Arapça (Türkçe çevirisi mevcut)'},{k:'Konu',v:'İlim Adabı'},{k:'Seviye',v:'Başlangıç – Orta'},{k:'Dönem',v:'Çağdaş (20. Yüzyıl)'}],long:`<p>Hılye-i Talibü'l-İlm, Bekr Ebû Zeyd'in ilim talebelerinin ahlaki ve metodolojik oluşumuna katkı sunmak amacıyla hazırladığı değerli bir risaledir. Eser; ilim talibinin iç ahlakı (ihlas, sabır, azim), dış davranışları (giyim, oturuş, edep) ve hocasıyla olan ilişkisini kapsamlı biçimde ele almaktadır.</p><p>Selefin ilim anlayışını ve ilim adabını aktaran bu çalışma, günümüz ilim talebelerine hem tarihsel bir miras hem de pratik bir rehber sunmaktadır.</p>`,quote:{ar:'الْعِلْمُ لَا يُعْطِيكَ بَعْضَهُ حَتَّى تُعْطِيَهُ كُلَّكَ',tr:'"İlim sana bir parçasını vermez; ta ki sen ona tümünü verene dek." — Mâlik b. Enes'}},
+];
+
+const bgColors={akide:'linear-gradient(150deg,#0e0b04,#1c1508,#0e0b04)',tefsir:'linear-gradient(150deg,#04080e,#081221,#04080e)',hadis:'linear-gradient(150deg,#050c06,#0c1a0e,#050c06)',fikih:'linear-gradient(150deg,#0e0704,#1a0e06,#0e0704)',siyer:'linear-gradient(150deg,#0a0510,#150a1c,#0a0510)',menhec:'linear-gradient(150deg,#050810,#09101c,#050810)'};
+
+function getSVGPattern(cat,id){
+  const pats={
+    akide:`<path d="M20 0L40 20L20 40L0 20Z" fill="none" stroke="#d4a84b" stroke-width="0.4" stroke-opacity="0.35"/>`,
+    tefsir:`<circle cx="15" cy="15" r="12" fill="none" stroke="#4a88c4" stroke-width="0.3" stroke-opacity="0.35"/><circle cx="15" cy="15" r="6" fill="none" stroke="#4a88c4" stroke-width="0.2" stroke-opacity="0.2"/>`,
+    hadis:`<rect x="4" y="4" width="20" height="20" fill="none" stroke="#4a9c5a" stroke-width="0.35" stroke-opacity="0.35" transform="rotate(45 14 14)"/>`,
+    fikih:`<polygon points="16,2 30,10 30,22 16,30 2,22 2,10" fill="none" stroke="#c44a30" stroke-width="0.3" stroke-opacity="0.35"/>`,
+    siyer:`<path d="M12 2L22 12L12 22L2 12Z" fill="none" stroke="#9a4ac4" stroke-width="0.3" stroke-opacity="0.35"/><circle cx="12" cy="12" r="3" fill="none" stroke="#9a4ac4" stroke-width="0.2" stroke-opacity="0.2"/>`,
+    menhec:`<line x1="0" y1="18" x2="36" y2="18" stroke="#4a7acc" stroke-width="0.2" stroke-opacity="0.25"/><line x1="18" y1="0" x2="18" y2="36" stroke="#4a7acc" stroke-width="0.2" stroke-opacity="0.25"/><circle cx="18" cy="18" r="10" fill="none" stroke="#4a7acc" stroke-width="0.3" stroke-opacity="0.28"/>`,
+  };
+  const sizes={akide:40,tefsir:30,hadis:28,fikih:32,siyer:24,menhec:36};
+  const s=sizes[cat]||36;
+  return `<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="cvp${id}" width="${s}" height="${s}" patternUnits="userSpaceOnUse">${pats[cat]||''}</pattern></defs><rect width="100%" height="100%" fill="url(#cvp${id})"/></svg>`;
+}
+
+function buildCover(book,large=false){
+  const uid=book.id.replace('-','');
+  const iconSz=large?'4.5rem':'2.8rem';
+  const arSz=large?'1.1rem':'0.82rem';
+  return `
+    <div class="cover-bg" style="background:${bgColors[book.cat]||bgColors.akide}"></div>
+    <div class="cover-pattern">${getSVGPattern(book.cat,uid)}</div>
+    <div class="cover-corner tl"></div><div class="cover-corner tr"></div>
+    <div class="cover-corner bl"></div><div class="cover-corner br"></div>
+    <div class="cover-border"></div>
+    <span class="cover-icon" style="font-size:${iconSz}">${book.icon}</span>
+    <div class="cover-title-ar" style="font-size:${arSz}">${book.titleAr}</div>`;
+}
+
+function renderBooks(cat='tümü'){
+  const grid=document.getElementById('booksGrid');
+  grid.innerHTML='';
+  const list=cat==='tümü'?books:books.filter(b=>b.cat===cat);
+  list.forEach((b,i)=>{
+    const d=document.createElement('div');
+    d.className='book-card visible';
+    d.style.animationDelay=(i*0.055)+'s';
+    d.dataset.cat=b.cat;
+    d.innerHTML=`
+      <div class="book-cover">
+        <div class="book-cover-inner">${buildCover(b)}</div>
+      </div>
+      <div class="book-info">
+        <div class="book-cat-badge">${b.catLabel}</div>
+        <div class="book-title">${b.title}</div>
+        <div class="book-author">${b.author}</div>
+        <p class="book-excerpt">${b.excerpt}</p>
+        <button class="detail-btn" onclick="event.stopPropagation();showDetail('${b.id}')">
+          Detaylı Bilgi
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg>
+        </button>
+      </div>`;
+    grid.appendChild(d);
+  });
+}
+
+const titlesMap={tümü:'Öne Çıkan Kitaplar',akide:'Akide Kitapları',tefsir:'Tefsir Kitapları',hadis:'Hadis Kitapları',fikih:'Fıkıh Kitapları',siyer:'Siyer Kitapları',menhec:'Menhec Kitapları'};
+const descsMap={tümü:'Sahih ilim yolunda rehber olacak temel eserlerden bir seçki.',akide:'Tevhid, sıfatlar ve Ehl-i Sünnet itikadı üzerine seçkin eserler.',tefsir:"Kur'ân-ı Kerim'in tefsiri ve Kur'an ilimleri üzerine kaynaklar.",hadis:'Sahih hadis külliyatları ve hadis derleme çalışmaları.',fikih:'İslam hukuku, ibadet ve muamelat kaynakları.',siyer:"Hz. Peygamber'in (sas) hayatı ve siyer literatürü.",menhec:"Selef menheci, bid'at ve ilim adabı üzerine eserler."};
+
+function filterBooks(cat,btn){
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderBooks(cat);
+  document.getElementById('booksTitle').textContent=titlesMap[cat]||titlesMap.tümü;
+  document.getElementById('booksDesc').textContent=descsMap[cat]||descsMap.tümü;
+}
+
+function selectCat(cat){
+  document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('active'));
+  const cc=document.getElementById('cat-'+cat);
+  if(cc) cc.classList.add('active');
+  const btnLabelMap={akide:'Akide',tefsir:'Tefsir',hadis:'Hadis',fikih:'Fıkıh',siyer:'Siyer',menhec:'Menhec'};
+  document.querySelectorAll('.f-btn').forEach(b=>{
+    b.classList.remove('active');
+    if(b.textContent.trim()===btnLabelMap[cat]) b.classList.add('active');
+  });
+  renderBooks(cat);
+  document.getElementById('booksTitle').textContent=titlesMap[cat];
+  document.getElementById('booksDesc').textContent=descsMap[cat];
+  setTimeout(()=>{
+    document.getElementById('kitaplar').scrollIntoView({behavior:'smooth',block:'start'});
+  },100);
+}
+
+let prevY=0;
+function showDetail(id){
+  const b=books.find(x=>x.id===id);
+  if(!b) return;
+  prevY=window.scrollY;
+  document.getElementById('breadCat').textContent=b.catLabel;
+  document.getElementById('breadTitle').textContent=b.title;
+  const ce=document.getElementById('detailCoverEl');
+  ce.innerHTML=buildCover(b,true);
+  ce.style.background=bgColors[b.cat]||bgColors.akide;
+  document.getElementById('detailBadge').textContent=b.catLabel+' — '+b.tag;
+  document.getElementById('detailTitle').textContent=b.title;
+  document.getElementById('detailAuthor').textContent=b.author;
+  document.getElementById('detailShort').textContent=b.short;
+  document.getElementById('detailProps').innerHTML=b.props.map(p=>`<div class="prop-item"><div class="prop-key">${p.k}</div><div class="prop-val">${p.v}</div></div>`).join('');
+  document.getElementById('detailLong').innerHTML=b.long;
+  document.getElementById('detailQuote').innerHTML=`<div class="detail-quote"><div class="dq-ar">${b.quote.ar}</div><div class="dq-tr">${b.quote.tr}</div></div>`;
+  const rel=books.filter(x=>x.cat===b.cat&&x.id!==b.id);
+  document.getElementById('relatedGrid').innerHTML=rel.map(r=>`
+    <div class="related-card" onclick="showDetail('${r.id}')">
+      <div class="related-cover">
+        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:12px;background:${bgColors[r.cat]}">
+          ${buildCover(r,false)}
+        </div>
+      </div>
+      <div class="related-info">
+        <div class="related-title">${r.title}</div>
+        <div class="related-author">${r.author}</div>
+      </div>
+    </div>`).join('');
+  document.getElementById('mainPage').classList.remove('active');
+  document.getElementById('detailPage').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goBack(){
+  document.getElementById('detailPage').classList.remove('active');
+  document.getElementById('mainPage').classList.add('active');
+  setTimeout(()=>window.scrollTo({top:prevY,behavior:'smooth'}),50);
+}
+
+function showMain(){
+  closeMobileMenu();
+  document.getElementById('detailPage').classList.remove('active');
+  document.getElementById('mainPage').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleMenu(){
+  const menu=document.getElementById('mobileMenu');
+  const btn=document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeMobileMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+function doScroll(id){
+  setTimeout(()=>{const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},130);
+}
+
+// 3-second countdown timer on hero CTA
+(function(){
+  const timerEl = document.getElementById('ctaTimer');
+  if(!timerEl) return;
+  let count = 3;
+  timerEl.textContent = count;
+  const interval = setInterval(function(){
+    count--;
+    if(count > 0){
+      timerEl.textContent = count;
+    } else {
+      clearInterval(interval);
+      timerEl.textContent = '';
+      timerEl.style.borderLeft = 'none';
+      timerEl.style.paddingLeft = '0';
+      timerEl.style.marginLeft = '0';
+      const el = document.getElementById('kategoriler');
+      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }, 1000);
+})();
+
+renderBooks();
+</script>
+</body>
+</html>
